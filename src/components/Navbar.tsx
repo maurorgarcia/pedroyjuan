@@ -210,34 +210,6 @@ export default function Navbar() {
 
             {/* Right actions */}
             <div className="flex items-center gap-1 ml-auto">
-              <a
-                href={whatsAppUrl(PRIMARY_PHONE, 'Hola! Quiero consultar por el petshop.')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden lg:flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-xl border border-green-200 bg-green-50 hover:bg-green-100 transition-colors group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-green-500 text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-                  <MessageCircle size={16} />
-                </div>
-                <div className="text-left leading-tight">
-                  <p className="text-[10px] font-bold uppercase tracking-wide text-green-700">WhatsApp</p>
-                  <p className="text-xs font-semibold text-gray-800">Consultanos</p>
-                </div>
-              </a>
-
-              <a
-                href={`tel:${PRIMARY_PHONE.tel}`}
-                className="hidden xl:flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 transition-colors group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center shadow-sm">
-                  <Phone size={15} />
-                </div>
-                <div className="text-left leading-tight">
-                  <p className="text-[10px] font-bold uppercase tracking-wide text-brand-500">Petshop</p>
-                  <p className="text-xs font-semibold text-gray-800 whitespace-nowrap">{PRIMARY_PHONE.display}</p>
-                </div>
-              </a>
-
               {/* User menu */}
               {user ? (
                 <div className="relative">
