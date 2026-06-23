@@ -86,7 +86,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} Pedro y Juan. Todos los derechos reservados.</p>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span>Desarrollado por</span>
-            <a href="https://github.com/maurorgarcia" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center">
+            <a href="https://mrgarciadev.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center">
               <img src="/logoMrgDeve.png" alt="MrgDeve Logo" className="h-5 w-auto object-contain" />
             </a>
           </div>
