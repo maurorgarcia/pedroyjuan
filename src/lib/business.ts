@@ -4,8 +4,8 @@ export const BUSINESS = {
   mapsUrl: 'https://maps.app.goo.gl/uYqifwpKArGiT5AT6',
   pickupNote: 'Retiro en local — no realizamos envíos a domicilio.',
   tagline: 'Petshop · Veterinaria · Peluquería en San Nicolás — Pedí online, retirá en el local y ahorrá tiempo',
-  hours: 'Lunes a Sábado: 08:30 a 13 | 16:30 a 20 hs',
-  hoursShort: 'Lun–Sáb 08:30–13 y 16:30–20 hs',
+  hours: 'Lunes a Sábado: 08:30 a 13:00 | 17:30 a 21:00 hs',
+  hoursShort: 'Lun–Sáb 08:30–13 y 17:30–21 hs',
   instagram: 'https://www.instagram.com/pedroyjuan',
   phones: [
     {
