@@ -9,17 +9,15 @@ export default function About() {
             <span className="inline-flex items-center gap-1.5 bg-brand-100 text-brand-700 text-sm font-semibold px-3 py-1.5 rounded-full mb-4">
               <Calendar size={15} /> 10+ años en el barrio
             </span>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nacimos por amor a las mascotas</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pedro y Juan — Cosa de Perros</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Pedro y Juan nació hace más de 10 años en San Nicolás de los Arroyos, de la mano de dos amigos apasionados por los animales.
-              Hoy somos petshop, veterinaria y peluquería: un solo lugar para el cuidado completo de tu mascota.
+              Somos un espacio integral en San Nicolás de Los Arroyos pensado para cubrir todas las necesidades de tus mascotas. Funcionamos como un Petshop completo, Veterinaria y Peluquería Canina, buscando darte siempre el cuidado y la atención que tu compañero merece.
             </p>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Ofrecemos productos de las mejores marcas, asesoramiento personalizado y un servicio cercano que 
-              nos distingue. Porque para nosotros, cada mascota es unica.
+              En nuestra tienda vas a encontrar una inmensa variedad de alimentos (desde marcas premium hasta opciones económicas), accesorios de higiene, juguetes y un sector especializado de acuarismo con asesoramiento experto. Además, para tu comodidad, contamos con envíos a domicilio para bolsas pesadas y un amplio horario de lunes a sábado de 8:30 a 13:00 hs y de 17:30 a 21:00 hs.
             </p>
             <div className="grid grid-cols-3 gap-6">
-              {[['10+', 'Anos de experiencia'], ['500+', 'Productos disponibles'], ['5.000+', 'Clientes felices']].map(([num, label]) => (
+              {[['10+', 'Años de trayectoria'], ['2000+', 'Productos'], ['190+', 'Opiniones Google']].map(([num, label]) => (
                 <div key={label} className="text-center">
                   <p className="text-2xl font-bold text-brand-700">{num}</p>
                   <p className="text-xs text-gray-500 mt-1">{label}</p>

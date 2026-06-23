@@ -1,9 +1,9 @@
 import { Star } from 'lucide-react';
 
 const testimonials = [
-  { name: 'Laura M.', pet: 'Copito (perro)', text: 'Excelente atencion y productos de primera calidad. Copito esta feliz con su nueva comida y siempre encuentro todo lo que necesito.', rating: 5 },
-  { name: 'Marcos R.', pet: 'Michi y Luna (gatos)', text: 'El mejor petshop del barrio sin dudas. Me ayudaron a elegir la mejor arenera y los precios son muy convenientes.', rating: 5 },
-  { name: 'Sofia G.', pet: 'Pipa (canario)', text: 'Muy buen servicio y variedad. Pedro y Juan siempre me aconsejan bien y tienen todo lo que necesito para mi canario.', rating: 5 },
+  { name: 'Facundo G.', pet: 'Reseña de Google', text: 'El mejor petshop de San Nicolás. Tienen una variedad increíble de productos y alimentos de todas las marcas. La sección de acuarismo está muy bien equipada y te atienden de diez.', rating: 5 },
+  { name: 'Mariela B.', pet: 'Reseña de Google', text: 'Super recomendable. Llevo a mi perrito a la peluquería y siempre queda hermoso. Además aprovecho a comprarle el alimento porque tienen excelentes precios.', rating: 5 },
+  { name: 'Carlos D.', pet: 'Reseña de Google', text: 'Muy buena atención y predisposición. El asesoramiento para armar mi pecera fue excelente, te explican todo con mucha paciencia. El servicio de entrega a domicilio ayuda un montón.', rating: 5 },
 ];
 
 export default function Testimonials() {
