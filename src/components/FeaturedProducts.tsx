@@ -3,7 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { supabase, Product } from '../lib/supabase';
 import ProductCard from './ProductCard';
-import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);

@@ -35,7 +35,7 @@ export const BUSINESS = {
 export const PRIMARY_PHONE = BUSINESS.phones[0];
 
 export function whatsAppUrl(
-  phone = PRIMARY_PHONE,
+  phone: typeof BUSINESS.phones[number] = PRIMARY_PHONE,
   message = 'Hola! Quiero consultar.',
 ) {
   return `https://wa.me/${phone.whatsapp}?text=${encodeURIComponent(message)}`;

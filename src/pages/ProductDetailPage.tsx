@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { supabase, Product } from '../lib/supabase';
 import { useCart } from '../contexts/CartContext';
-import { formatPrice, discountPercent, BADGE_LABELS } from '../lib/constants';
+import { formatPrice, discountPercent } from '../lib/constants';
 import { findCategoria } from '../data/catalog';
 import ProductCard from '../components/ProductCard';
 import JsonLd from '../components/JsonLd';
