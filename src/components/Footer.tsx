@@ -84,6 +84,12 @@ export default function Footer() {
         <hr className="border-gray-800 my-8" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>© {new Date().getFullYear()} Pedro y Juan. Todos los derechos reservados.</p>
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span>Desarrollado por</span>
+            <a href="https://github.com/maurorgarcia" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center">
+              <img src="/logoMrgDeve.png" alt="MrgDeve Logo" className="h-5 w-auto object-contain" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
