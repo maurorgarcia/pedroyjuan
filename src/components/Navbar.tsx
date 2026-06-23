@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  ShoppingCart, User, Search, Menu, X, Phone, ChevronDown, MessageCircle,
+  ShoppingCart, User, Search, Menu, X, ChevronDown,
   LogOut, Package, Settings, Dog, Cat, Bird, Fish, Rabbit, Tag, Award, Shield,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { CATALOG } from '../data/catalog';
-import { BUSINESS, PRIMARY_PHONE, whatsAppUrl } from '../lib/business';
+import { BUSINESS } from '../lib/business';
 
 // ─── Mega-menu panel ────────────────────────────────────────────────────────────
 interface MegaMenuProps {
