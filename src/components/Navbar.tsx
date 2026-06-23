@@ -191,7 +191,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4 h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-              <img src="/logo.png" alt="Pedro y Juan Petshop" className="h-10 w-auto object-contain" />
+              <img src="/logo_sinfondo.png" alt="Pedro y Juan Petshop" className="h-10 w-auto object-contain" />
             </Link>
 
             {/* Search */}

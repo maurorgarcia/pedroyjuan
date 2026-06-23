@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="Pedro y Juan Petshop" className="h-10 w-auto object-contain bg-white/10 p-1 rounded-lg" />
+              <img src="/logo_sinfondo.png" alt="Pedro y Juan Petshop" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-sm text-gray-400 leading-relaxed mb-4">
               Tu petshop de confianza en San Nicolás. Petshop, veterinaria y peluquería para tu mascota.
