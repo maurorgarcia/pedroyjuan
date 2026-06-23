@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
-  ShoppingCart, Star, MapPin, Shield, ChevronRight,
+  ShoppingCart, Star, MapPin, Shield,
   AlertTriangle, PawPrint, Minus, Plus, CreditCard, Home,
   Megaphone,
 } from 'lucide-react';
@@ -185,19 +185,18 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Right: Info */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             {/* Code + Brand */}
-            <div className="text-xs text-gray-400 space-x-4">
+            <div>
               {product.brand && (
-                <span>
-                  <span className="font-semibold">Marca:</span>{' '}
-                  <span className="text-brand-600 font-bold uppercase">{product.brand}</span>
+                <span className="inline-flex items-center bg-brand-50 text-brand-700 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
+                  {product.brand}
                 </span>
               )}
             </div>
 
             {/* Product name */}
-            <h1 className="text-2xl font-black text-gray-900 uppercase leading-tight">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 leading-tight">
               {product.name}
             </h1>
 
@@ -212,55 +211,54 @@ export default function ProductDetailPage() {
                   />
                 ))}
               </div>
-              <span className="text-sm text-gray-500">{product.rating.toFixed(1)} ({product.reviews_count} reseñas)</span>
+              <span className="text-xs text-gray-400">({product.reviews_count} valoraciones)</span>
             </div>
 
             {/* Promo banner */}
             {discount && (
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-3">
+              <div className="bg-amber-50/80 border border-amber-100 rounded-2xl p-4 flex items-start gap-3">
                 <Megaphone size={18} className="text-amber-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-bold text-amber-800">¡Producto con promoción!</p>
-                  <p className="text-xs text-amber-700 mt-0.5">• {discount}% off en todo · Exclusivo en la web</p>
+                  <p className="text-xs font-black uppercase tracking-wider text-amber-800">¡Promoción Web!</p>
+                  <p className="text-sm text-amber-700 mt-0.5">• {discount}% off en todo · Exclusivo en la web</p>
                 </div>
               </div>
             )}
 
             {/* Price */}
-            <div>
-              <p className="text-xs text-gray-400 font-medium mb-1">Precio en un pago</p>
+            <div className="py-2 border-y border-gray-100">
+              <p className="text-xs text-gray-400 font-medium mb-1.5">Precio online</p>
               <div className="flex items-end gap-3">
-                <span className="text-4xl font-black text-gray-900">{formatPrice(product.price)}</span>
+                <span className="text-4xl font-black text-gray-900 tracking-tight">{formatPrice(product.price)}</span>
                 {product.original_price && (
                   <span className="text-lg text-gray-400 line-through mb-1">
                     {formatPrice(product.original_price)}
                   </span>
                 )}
               </div>
-              <p className="text-sm text-brand-600 font-semibold mt-1">
-                3 cuotas de {formatPrice(installments)} sin interés
-              </p>
             </div>
 
             {/* Quantity + Add to cart */}
             {product.stock > 0 ? (
               <div className="flex items-center gap-3">
                 {/* Qty selector */}
-                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                <div className="flex items-center border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
                   <button
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                    className="px-3 py-2.5 hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2.5 hover:bg-gray-100 transition-colors"
+                    aria-label="Restar cantidad"
                   >
-                    <Minus size={16} className="text-gray-600" />
+                    <Minus size={15} className="text-gray-500" />
                   </button>
-                  <span className="px-5 py-2.5 text-base font-bold border-x-2 border-gray-200 min-w-14 text-center">
+                  <span className="px-4 py-2.5 text-sm font-bold min-w-10 text-center text-gray-700">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity(q => Math.min(product.stock, q + 1))}
-                    className="px-3 py-2.5 hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2.5 hover:bg-gray-100 transition-colors"
+                    aria-label="Sumar cantidad"
                   >
-                    <Plus size={16} className="text-gray-600" />
+                    <Plus size={15} className="text-gray-500" />
                   </button>
                 </div>
 
@@ -268,21 +266,21 @@ export default function ProductDetailPage() {
                 <button
                   onClick={handleAdd}
                   disabled={adding || added}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-black text-base transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 ${
                     cartError
                       ? 'bg-red-50 text-red-600 border border-red-200'
                       : added
-                      ? 'bg-green-500 text-white'
-                      : 'bg-brand-600 hover:bg-brand-700 text-white active:scale-95'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-brand-600 hover:bg-brand-700 text-white shadow-sm hover:shadow'
                   }`}
                 >
-                  <ShoppingCart size={18} />
-                  {cartError ? 'Error al agregar' : added ? '¡Agregado!' : adding ? 'Agregando...' : 'Comprar'}
+                  <ShoppingCart size={16} />
+                  {cartError ? 'Error al agregar' : added ? '¡Agregado!' : adding ? 'Agregando...' : 'Agregar al carrito'}
                 </button>
               </div>
             ) : (
-              <div className="bg-red-50 text-red-600 font-bold text-center py-3 rounded-xl border border-red-200">
-                Sin stock disponible
+              <div className="bg-red-50 text-red-600 font-bold text-center py-3 rounded-xl border border-red-200 text-sm">
+                Sin stock disponible por el momento
               </div>
             )}
 
@@ -290,53 +288,47 @@ export default function ProductDetailPage() {
               <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-2.5">{cartError}</p>
             )}
 
+            {/* Payment options panel */}
+            <div className="bg-gray-50/60 border border-gray-100/50 rounded-2xl p-4">
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">Financiación</p>
+              <p className="text-base font-bold text-gray-900">
+                3 cuotas sin interés de <span className="text-brand-700">{formatPrice(installments)}</span>
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Disponible con tarjetas Visa, MasterCard, Naranja y Cabal.
+              </p>
+              <button className="flex items-center gap-1 text-xs text-brand-600 font-semibold mt-3 hover:underline">
+                <Shield size={13} className="flex-shrink-0" />Ver más planes de financiación
+              </button>
+            </div>
+
             {/* Benefits */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-3">
-                <MapPin size={20} className="text-brand-600 mt-0.5 flex-shrink-0" />
+            <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+                <MapPin size={18} className="text-brand-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-xs font-bold text-gray-900">Retiro en local</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Bartolomé Mitre 360, San Nicolás</p>
+                  <p className="text-[10px] text-gray-500 mt-0.5">Bartolomé Mitre 360, San Nicolás</p>
                   <a
                     href={BUSINESS.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-brand-600 font-semibold mt-1 hover:underline inline-block"
+                    className="text-[10px] text-brand-600 font-bold mt-1.5 hover:underline inline-block"
                   >
-                    Ver cómo llegar →
+                    Cómo llegar →
                   </a>
                 </div>
               </div>
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-3">
-                <CreditCard size={20} className="text-brand-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+                <CreditCard size={18} className="text-brand-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-xs font-bold text-gray-900">Beneficios bancarios</p>
-                  <button className="text-xs text-brand-600 font-semibold mt-0.5 hover:underline">Ver más beneficios</button>
+                  <p className="text-[10px] text-gray-500 mt-0.5">Promociones y reintegros vigentes</p>
+                  <button className="text-[10px] text-brand-600 font-bold mt-1.5 hover:underline text-left">
+                    Ver beneficios →
+                  </button>
                 </div>
               </div>
-            </div>
-
-            {/* Payment options panel */}
-            <div className="bg-white border border-gray-100 rounded-xl p-4">
-              <p className="text-xs font-bold text-gray-700 mb-3">¡Aprovechá estas promociones de pago!</p>
-              <div className="space-y-2">
-                {[
-                  { card: 'Visa Crédito', color: 'text-blue-600' },
-                  { card: 'Master Crédito', color: 'text-red-600' },
-                  { card: 'Naranja Crédito', color: 'text-orange-500' },
-                  { card: 'Cabal', color: 'text-green-600' },
-                ].map(({ card, color }) => (
-                  <div key={card} className="flex items-center gap-2 text-xs">
-                    <ChevronRight size={12} className="text-gray-300 flex-shrink-0" />
-                    <span className="text-gray-600">3 cuotas de</span>
-                    <span className={`font-bold ${color}`}>{formatPrice(installments)}</span>
-                    <span className={`font-semibold ${color}`}>con {card}</span>
-                  </div>
-                ))}
-              </div>
-              <button className="flex items-center gap-1 text-xs text-brand-600 font-semibold mt-3 hover:underline">
-                <Shield size={13} />Ver más planes de financiación
-              </button>
             </div>
           </div>
         </div>
