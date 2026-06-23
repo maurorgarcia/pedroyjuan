@@ -27,8 +27,8 @@ export default function AuthPageLayout({ title, subtitle, children, footer, back
         </div>
 
         <div className="relative">
-          <Link to="/" className="inline-block mb-12">
-            <img src="/logo.png" alt="Pedro y Juan Petshop" className="h-14 w-auto object-contain brightness-0 invert" />
+          <Link to="/" className="inline-block mb-12 bg-white p-2.5 rounded-xl shadow-sm hover:opacity-95 transition-opacity">
+            <img src="/logo.png" alt="Pedro y Juan Petshop" className="h-10 w-auto object-contain" />
           </Link>
           <h2 className="text-3xl xl:text-4xl font-bold leading-tight mb-4">
             Tu petshop de confianza en San Nicolás

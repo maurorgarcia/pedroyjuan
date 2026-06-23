@@ -13,12 +13,15 @@ export default function CheckoutPage() {
   const { items, localItems, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState<'contact' | 'confirm' | 'success'>('contact');
+  const [shippingMethod, setShippingMethod] = useState<'pickup' | 'delivery'>('pickup');
   const [orderId, setOrderId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [form, setForm] = useState({
     phone: profile?.phone || '',
+    address: profile?.address || '',
+    city: profile?.city || 'San Nicolás de Los Arroyos',
     notes: '',
   });
 
@@ -57,11 +60,13 @@ export default function CheckoutPage() {
 
     const { data: orderId, error: orderErr } = await supabase.rpc('place_order', {
       p_total: totalPrice,
-      p_shipping_address: BUSINESS.address,
-      p_shipping_city: 'San Nicolás de Los Arroyos',
+      p_shipping_address: shippingMethod === 'pickup' ? BUSINESS.address : form.address,
+      p_shipping_city: shippingMethod === 'pickup' ? 'San Nicolás de Los Arroyos' : form.city,
       p_shipping_province: 'Buenos Aires',
       p_shipping_phone: form.phone,
-      p_notes: form.notes ? `Retiro en local. ${form.notes}` : 'Retiro en local',
+      p_notes: form.notes 
+        ? `${shippingMethod === 'pickup' ? 'Retiro en local' : 'Envío a domicilio'}. ${form.notes}`
+        : (shippingMethod === 'pickup' ? 'Retiro en local' : 'Envío a domicilio'),
       p_items: displayItems.map(({ product, quantity }) => ({
         product_id: product.id,
         product_name: product.name,
@@ -95,16 +100,22 @@ export default function CheckoutPage() {
           <p className="text-gray-500 text-sm mb-2">Tu pedido fue recibido con éxito.</p>
           <p className="text-xs text-gray-400 font-mono mb-6">ID: {orderId.slice(0, 8).toUpperCase()}</p>
           <p className="text-sm text-gray-600 bg-gray-50 rounded-xl p-4 mb-4">
-            Te avisaremos al <strong>{form.phone}</strong> cuando esté listo para retirar en el local.
+            {shippingMethod === 'pickup' ? (
+              <>Te avisaremos al <strong>{form.phone}</strong> cuando esté listo para retirar en el local.</>
+            ) : (
+              <>Coordinaremos el envío a domicilio a <strong>{form.address}</strong> y te avisaremos al <strong>{form.phone}</strong>.</>
+            )}
           </p>
-          <a
-            href={BUSINESS.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-brand-600 hover:underline mb-6 inline-block"
-          >
-            Ver ubicación en Google Maps →
-          </a>
+          {shippingMethod === 'pickup' && (
+            <a
+              href={BUSINESS.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-brand-600 hover:underline mb-6 inline-block"
+            >
+              Ver ubicación en Google Maps →
+            </a>
+          )}
           <div className="flex flex-col gap-2">
             <Link to="/cuenta/pedidos" className="btn-primary"><Package size={16} />Ver mis pedidos</Link>
             <Link to="/" className="btn-secondary">Volver al inicio</Link>
@@ -138,25 +149,74 @@ export default function CheckoutPage() {
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6">
               {step === 'contact' ? (
                 <>
-                  <h2 className="font-bold text-gray-900 text-lg mb-5 flex items-center gap-2">
-                    <Store size={18} className="text-brand-600" />
-                    Retiro en local
-                  </h2>
-
-                  <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 mb-5">
-                    <p className="text-sm font-semibold text-brand-800 mb-1">Lugar de retiro</p>
-                    <p className="text-sm text-gray-700">{BUSINESS.address}</p>
-                    <p className="text-xs text-gray-500 mt-1">{BUSINESS.hours}</p>
-                    <a
-                      href={BUSINESS.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-brand-600 font-medium hover:underline mt-2 inline-flex items-center gap-1"
+                  {/* Delivery method tabs */}
+                  <div className="flex bg-gray-100 p-1 rounded-xl mb-5">
+                    <button
+                      type="button"
+                      onClick={() => setShippingMethod('pickup')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                        shippingMethod === 'pickup'
+                          ? 'bg-white text-brand-700 shadow-sm'
+                          : 'text-gray-500 hover:text-gray-800'
+                      }`}
                     >
-                      <MapPin size={12} />
-                      Cómo llegar en Google Maps
-                    </a>
+                      <Store size={16} />
+                      Retiro en local
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShippingMethod('delivery')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                        shippingMethod === 'delivery'
+                          ? 'bg-white text-brand-700 shadow-sm'
+                          : 'text-gray-500 hover:text-gray-800'
+                      }`}
+                    >
+                      <Package size={16} />
+                      Envío a domicilio
+                    </button>
                   </div>
+
+                  {shippingMethod === 'pickup' ? (
+                    <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 mb-5">
+                      <p className="text-sm font-semibold text-brand-800 mb-1">Lugar de retiro</p>
+                      <p className="text-sm text-gray-700">{BUSINESS.address}</p>
+                      <p className="text-xs text-gray-500 mt-1">{BUSINESS.hours}</p>
+                      <a
+                        href={BUSINESS.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-brand-600 font-medium hover:underline mt-2 inline-flex items-center gap-1"
+                      >
+                        <MapPin size={12} />
+                        Cómo llegar en Google Maps
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 mb-5">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Dirección de entrega *</label>
+                        <input
+                          required
+                          type="text"
+                          placeholder="Calle y altura, Piso/Dpto, Barrio"
+                          className="input-field"
+                          value={form.address}
+                          onChange={e => setForm(f => ({ ...f, address: e.target.value }))}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad *</label>
+                        <input
+                          required
+                          type="text"
+                          className="input-field"
+                          value={form.city}
+                          onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div className="space-y-4">
                     <div>
@@ -168,7 +228,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Notas adicionales</label>
-                      <textarea rows={3} className="input-field resize-none" placeholder="Horario preferido para retirar, consultas, etc." value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} />
+                      <textarea rows={3} className="input-field resize-none" placeholder="Horario preferido, timbre, referencias para llegar, etc." value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} />
                     </div>
                     <button type="submit" className="btn-primary w-full">Continuar</button>
                   </div>
@@ -177,8 +237,12 @@ export default function CheckoutPage() {
                 <>
                   <h2 className="font-bold text-gray-900 text-lg mb-5">Confirmar pedido</h2>
                   <div className="bg-gray-50 rounded-xl p-4 mb-4 space-y-1.5 text-sm">
-                    <p className="font-semibold text-gray-900">Retiro en local:</p>
-                    <p className="text-gray-600">{BUSINESS.address}</p>
+                    <p className="font-semibold text-gray-900">
+                      {shippingMethod === 'pickup' ? 'Método: Retiro en local' : 'Método: Envío a domicilio'}
+                    </p>
+                    <p className="text-gray-600">
+                      Ubicación: {shippingMethod === 'pickup' ? BUSINESS.address : `${form.address}, ${form.city}`}
+                    </p>
                     <p className="text-gray-600">Tel: {form.phone}</p>
                     {form.notes && <p className="text-gray-500 italic">"{form.notes}"</p>}
                   </div>
