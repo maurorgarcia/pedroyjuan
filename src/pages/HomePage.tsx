@@ -5,6 +5,7 @@ import FeaturedProducts from '../components/FeaturedProducts';
 import About from '../components/About';
 import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
+import FaqAccordion from '../components/FaqAccordion';
 import JsonLd from '../components/JsonLd';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { BUSINESS } from '../lib/business';
@@ -40,6 +41,7 @@ export default function HomePage() {
       <FeaturedProducts />
       <About />
       <Testimonials />
+      <FaqAccordion />
       <Contact />
     </>
   );

@@ -17,7 +17,7 @@ import { BUSINESS } from '../lib/business';
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, setCartOpen } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [related, setRelated] = useState<Product[]>([]);
@@ -68,6 +68,7 @@ export default function ProductDetailPage() {
       return;
     }
     setAdded(true);
+    setCartOpen(true);
     setTimeout(() => setAdded(false), 2000);
   };
 

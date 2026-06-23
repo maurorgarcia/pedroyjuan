@@ -4,6 +4,7 @@ import { CartProvider } from './contexts/CartContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import CartDrawer from './components/CartDrawer';
 import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -38,6 +39,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <main id="main" className="flex-1">{children}</main>
       <Footer />
       <WhatsAppButton />
+      <CartDrawer />
     </div>
   );
 }

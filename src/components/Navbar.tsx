@@ -124,7 +124,7 @@ function MobileCategoryLinks({ categoriaId, onClose }: { categoriaId: string; on
 // ─── Main component ────────────────────────────────────────────────────────────
 export default function Navbar() {
   const { user, profile, signOut } = useAuth();
-  const { totalItems } = useCart();
+  const { totalItems, setCartOpen } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -254,7 +254,10 @@ export default function Navbar() {
               )}
 
               {/* Cart */}
-              <Link to="/carrito" className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors text-gray-700">
+              <button 
+                onClick={() => setCartOpen(true)}
+                className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors text-gray-700"
+              >
                 <ShoppingCart size={20} />
                 {totalItems > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
@@ -262,7 +265,7 @@ export default function Navbar() {
                   </span>
                 )}
                 <span className="hidden sm:block text-sm">Carrito</span>
-              </Link>
+              </button>
 
               {/* Mobile toggle */}
               <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-xl hover:bg-gray-50 transition-colors ml-1">

@@ -8,7 +8,7 @@ import { useState } from 'react';
 type Props = { product: Product };
 
 export default function ProductCard({ product }: Props) {
-  const { addToCart } = useCart();
+  const { addToCart, setCartOpen } = useCart();
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const [cartError, setCartError] = useState('');
@@ -25,6 +25,7 @@ export default function ProductCard({ product }: Props) {
       return;
     }
     setAdded(true);
+    setCartOpen(true);
     setTimeout(() => setAdded(false), 1200);
   };
 
@@ -35,7 +36,7 @@ export default function ProductCard({ product }: Props) {
   const badge = product.badge ? BADGE_LABELS[product.badge] : null;
 
   return (
-    <article className="group bg-white border border-gray-100 hover:border-brand-200 rounded-2xl overflow-hidden flex flex-col transition-all duration-200 hover:shadow-md">
+    <article className="group bg-white border border-gray-100 hover:border-brand-200 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <Link to={`/producto/${product.id}`} className="block">
         <div className="relative bg-gray-50 aspect-square overflow-hidden">
           {product.image_url ? (
@@ -104,15 +105,15 @@ export default function ProductCard({ product }: Props) {
           onClick={handleAdd}
           disabled={adding || product.stock === 0}
           aria-label={product.stock === 0 ? 'Sin stock' : `Agregar ${product.name} al carrito`}
-          className={`w-full py-2 rounded-xl text-sm font-bold transition-all duration-200 active:scale-95 flex items-center justify-center gap-1.5 ${
+          className={`w-full py-2 rounded-xl text-sm font-bold transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 md:opacity-0 md:translate-y-3 md:group-hover:opacity-100 md:group-hover:translate-y-0 ${
             product.stock === 0
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed md:opacity-100 md:translate-y-0'
               : cartError
-              ? 'bg-red-50 text-red-600 border border-red-200'
+              ? 'bg-red-50 text-red-600 border border-red-200 md:opacity-100 md:translate-y-0'
               : added
-              ? 'bg-green-600 text-white'
+              ? 'bg-green-600 text-white md:opacity-100 md:translate-y-0'
               : adding
-              ? 'bg-brand-600 text-white scale-95'
+              ? 'bg-brand-600 text-white scale-95 md:opacity-100 md:translate-y-0'
               : 'bg-brand-600 hover:bg-brand-700 text-white'
           }`}
         >
