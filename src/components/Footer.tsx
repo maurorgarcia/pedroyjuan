@@ -45,7 +45,7 @@ export default function Footer() {
               <li><Link to="/registro" className="text-sm hover:text-white transition-colors">Crear cuenta</Link></li>
               <li><Link to="/carrito" className="text-sm hover:text-white transition-colors">Mi carrito</Link></li>
               <li><Link to="/cuenta/pedidos" className="text-sm hover:text-white transition-colors">Mis pedidos</Link></li>
-              <li><Link to="/#nosotros" className="text-sm hover:text-white transition-colors">Nosotros</Link></li>
+              <li><Link to="/#servicios" className="text-sm hover:text-white transition-colors">Servicios</Link></li>
               <li><Link to="/#contacto" className="text-sm hover:text-white transition-colors">Contacto</Link></li>
             </ul>
           </div>
