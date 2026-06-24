@@ -2,12 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   ShoppingCart, User, Search, Menu, X, ChevronDown,
-  LogOut, Package, Settings, Dog, Cat, Bird, Fish, Rabbit, Tag, Award, Shield,
+  LogOut, Package, Settings, Dog, Cat, Bird, Fish, Rabbit, Tag, Award, Shield, Heart, Truck,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { CATALOG } from '../data/catalog';
-import { BUSINESS } from '../lib/business';
 
 // ─── Mega-menu panel ────────────────────────────────────────────────────────────
 interface MegaMenuProps {
@@ -145,6 +144,17 @@ export default function Navbar() {
     setActiveMenu(null);
   }, [location]);
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileOpen]);
+
   const hasMega = (id: string) => CATALOG.some(c => c.id === id);
 
   const openMenu = (id: string) => {
@@ -178,12 +188,18 @@ export default function Navbar() {
     <>
       <header className={`relative sticky top-0 z-50 bg-white transition-shadow duration-200 ${scrolled ? 'shadow-md' : 'shadow-sm'}`}>
         {/* Announcement bar */}
-        <div className="bg-brand-700 text-white text-center text-xs sm:text-sm py-2.5 px-4">
-          <Link to="/productos?badge=oferta" className="hover:opacity-90 transition-opacity inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
-            <span className="font-semibold">{BUSINESS.tagline}</span>
-            <span className="hidden sm:inline text-white/70">·</span>
-            <span className="font-bold underline underline-offset-2">Ver ofertas →</span>
-          </Link>
+        <div className="bg-[#5c3e98] text-white text-[11px] sm:text-xs py-2.5 px-4">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 md:gap-10">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Dog size={12} /> Petshop • Veterinaria • Peluquería en San Nicolás
+            </span>
+            <span className="flex items-center gap-1.5 font-medium">
+              <Truck size={12} /> Pedí online, retirá en el local y ahorrá tiempo
+            </span>
+            <Link to="/productos?badge=oferta" className="flex items-center gap-1.5 font-semibold underline hover:text-brand-200 transition-colors">
+              <Heart size={12} className="fill-none" /> Ver ofertas especiales →
+            </Link>
+          </div>
         </div>
 
         {/* Main nav */}
@@ -201,7 +217,7 @@ export default function Navbar() {
                 placeholder="Buscar productos..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-4 pr-12 py-2.5 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm"
+                className="w-full pl-4 pr-12 py-2.5 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm bg-gray-50/50"
               />
               <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-600">
                 <Search size={18} />
@@ -209,7 +225,7 @@ export default function Navbar() {
             </form>
 
             {/* Right actions */}
-            <div className="flex items-center gap-1 ml-auto">
+            <div className="flex items-center gap-1.5 ml-auto">
               {/* User menu */}
               {user ? (
                 <div className="relative">
@@ -249,22 +265,26 @@ export default function Navbar() {
               ) : (
                 <Link to="/login" className="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors text-sm text-gray-600 hover:text-gray-900">
                   <User size={18} />
-                  <span className="hidden sm:block">Ingresar</span>
+                  <span className="hidden sm:block font-medium">Ingresar</span>
                 </Link>
               )}
+
+              {/* Favoritos */}
+              <Link to="/productos?badge=favorito" className="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors text-sm text-gray-600 hover:text-gray-900">
+                <Heart size={18} />
+                <span className="hidden sm:block font-medium">Favoritos</span>
+              </Link>
 
               {/* Cart */}
               <button 
                 onClick={() => setCartOpen(true)}
                 className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors text-gray-700"
               >
-                <ShoppingCart size={20} />
-                {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                    {totalItems > 9 ? '9+' : totalItems}
-                  </span>
-                )}
-                <span className="hidden sm:block text-sm">Carrito</span>
+                <ShoppingCart size={18} />
+                <span className="hidden sm:block text-sm font-medium">Carrito</span>
+                <span className="inline-block bg-[#5c3e98] text-white text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                  {totalItems}
+                </span>
               </button>
 
               {/* Mobile toggle */}
@@ -326,53 +346,69 @@ export default function Navbar() {
 
         {/* ── Mobile menu ─────────────────────────────────────────────────────── */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white animate-fade-in max-h-[70vh] overflow-y-auto">
-            <div className="px-4 py-3">
-              <form onSubmit={handleSearch} className="flex relative mb-4">
+          <div className="fixed inset-0 z-50 md:hidden flex justify-end">
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-300"
+              onClick={() => setMobileOpen(false)}
+            />
+            
+            {/* Drawer Body */}
+            <div className="relative w-full max-w-[280px] bg-white h-full shadow-2xl flex flex-col z-10 p-5 overflow-y-auto animate-slide-in">
+              <div className="flex items-center justify-between mb-6 pb-2 border-b border-gray-100">
+                <img src="/logo_sinfondo.png" alt="Logo" className="h-9 w-auto object-contain" />
+                <button 
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <form onSubmit={handleSearch} className="flex relative mb-6">
                 <input
                   type="text"
                   placeholder="Buscar productos..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-4 pr-12 py-3 rounded-xl border border-gray-200 outline-none text-sm"
+                  className="w-full pl-4 pr-12 py-2.5 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm bg-gray-50/50"
                 />
                 <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                   <Search size={18} />
                 </button>
               </form>
 
-              <div className="grid grid-cols-3 gap-2 mb-4">
+              {/* Main Links */}
+              <div className="space-y-1 mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">Menú</p>
                 {NAV_ITEMS.map(item => {
                   const IconComponent = item.icon;
-                  const bgClass = item.special === 'red' ? 'bg-red-50 hover:bg-red-100'
-                    : item.special === 'brand' ? 'bg-brand-50 hover:bg-brand-100'
-                    : 'bg-gray-50 hover:bg-brand-50';
-                  const iconClass = item.special === 'red' ? 'text-red-500'
-                    : item.special === 'brand' ? 'text-brand-600'
-                    : 'text-brand-600';
-                  const textClass = item.special === 'red' ? 'text-red-600'
-                    : item.special === 'brand' ? 'text-brand-700'
-                    : 'text-gray-700';
+                  const textClass = item.special === 'red' ? 'text-red-600 hover:bg-red-50'
+                    : item.special === 'brand' ? 'text-brand-700 hover:bg-brand-50'
+                    : 'text-gray-700 hover:bg-gray-50';
 
                   return (
                     <Link
                       key={item.id}
                       to={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl transition-colors text-center ${bgClass}`}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${textClass}`}
                     >
-                      <IconComponent size={20} className={iconClass} />
-                      <span className={`text-xs font-medium ${textClass}`}>{item.label}</span>
+                      <IconComponent size={18} className="text-[#5c3e98] flex-shrink-0" />
+                      <span>{item.label}</span>
                     </Link>
                   );
                 })}
               </div>
 
-              <div className="border-t border-gray-100 pt-3 space-y-2">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 px-1">Explorar categorías</p>
-                {CATALOG.map(cat => (
-                  <MobileCategoryLinks key={cat.id} categoriaId={cat.id} onClose={() => setMobileOpen(false)} />
-                ))}
+              {/* CategoriesAccordion */}
+              <div className="border-t border-gray-100 pt-5 space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">Categorías</p>
+                <div className="space-y-1.5">
+                  {CATALOG.map(cat => (
+                    <MobileCategoryLinks key={cat.id} categoriaId={cat.id} onClose={() => setMobileOpen(false)} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -383,6 +419,13 @@ export default function Navbar() {
         @keyframes megaIn {
           from { opacity: 0; transform: translateY(-6px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+          from { transform: translateX(100%); }
+          to   { transform: translateX(0); }
+        }
+        .animate-slide-in {
+          animation: slideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
       `}</style>
     </>

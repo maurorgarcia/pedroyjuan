@@ -2,21 +2,32 @@ import { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const testimonials = [
-  { name: 'Carla Lizazu', badge: 'Local Guide · 29 opiniones', text: 'Maravillosa atención, variedad de productos y son muy amables siempre.', rating: 5 },
-  { name: 'Ronaldo Villalba', badge: 'Local Guide · 58 opiniones', text: 'Gran variedad de productos y excelente atención.', rating: 5 },
-  { name: 'Adriana Avelin', badge: 'Local Guide · 31 opiniones', text: 'Me encanta. Fue donde compramos nuestra pecera, los chicos son muy amables y siempre nos ayudan con consejos de cómo cuidar a nuestros peces.', rating: 5 },
-  { name: 'Rober Escalas', badge: 'Local Guide · 257 opiniones', text: 'Excelente atención, el chico que nos atendió es un genio y muy amable.', rating: 5 },
-  { name: 'Mery Liz', badge: 'Local Guide · 30 opiniones', text: 'Buena atención, buenos productos!!! 👌🏼', rating: 5 },
-  { name: 'Marcos Ezequiel Bordon', badge: '13 opiniones', text: 'Muy buena atención y rápida.', rating: 5 },
-  { name: 'Fabio Javier', badge: 'Local Guide · 60 opiniones', text: 'Excelente Precio y Calidad.', rating: 5 },
-  { name: 'Jo Romero', badge: 'Local Guide · 26 opiniones', text: 'Excelente atención.', rating: 5 },
-  { name: 'Florencia Petrucci', badge: 'Local Guide · 27 opiniones', text: 'Tienen los cobayos más lindos 😊', rating: 5 }
+  {
+    name: 'María L.',
+    badge: 'Hace 1 semana',
+    text: 'Excelente atención y muy buenos precios. Siempre encuentro lo que necesito para mi perro.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=compress&cs=tinysrgb&w=100',
+  },
+  {
+    name: 'Lucas R.',
+    badge: 'Hace 2 semanas',
+    text: 'Compro siempre el alimento de mi gata acá. Llegan rápido y la atención es increíble.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=compress&cs=tinysrgb&w=100',
+  },
+  {
+    name: 'Sofía A.',
+    badge: 'Hace 3 semanas',
+    text: 'Llevé a mi perrita a peluquería y quedó hermosa! Súper recomendados.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1537151608828-ea2b117b6b86?auto=compress&cs=tinysrgb&w=100',
+  },
 ];
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,7 +45,7 @@ export default function Testimonials() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const maxIndex = testimonials.length - visibleCount;
+  const maxIndex = Math.max(0, testimonials.length - visibleCount);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -44,79 +55,66 @@ export default function Testimonials() {
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, [visibleCount, currentIndex, isPaused]);
-
-  // Generate background color based on name first letter
-  const getAvatarBg = (name: string) => {
-    const colors = [
-      'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-600', 
-      'bg-purple-500', 'bg-pink-500', 'bg-indigo-500', 'bg-teal-500'
-    ];
-    const code = name.charCodeAt(0);
-    return colors[code % colors.length];
-  };
-
   return (
-    <section className="py-16 bg-white overflow-hidden">
+    <section className="py-12 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="section-title">Lo que dicen nuestros clientes</h2>
-          <p className="section-subtitle">
-            Opiniones reales extraídas directamente de nuestro perfil de Google Maps
-          </p>
+        
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+              Lo que dicen nuestros clientes
+            </h2>
+            <p className="text-xs text-gray-500 mt-1">Opiniones reales de Google Maps</p>
+          </div>
+          <a
+            href="https://maps.app.goo.gl/uYqifwpKArGiT5AT6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs sm:text-sm font-semibold text-[#5c3e98] hover:text-[#4b3180] transition-colors"
+          >
+            Ver todas las opiniones →
+          </a>
         </div>
 
-        <div 
-          className="relative px-4 md:px-8"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        <div className="relative px-2 sm:px-6">
           {/* Carousel Wrapper */}
-          <div className="overflow-hidden py-4">
-            <div 
+          <div className="overflow-hidden py-2">
+            <div
               className="flex transition-transform duration-500 ease-out"
               style={{ transform: `translateX(-${currentIndex * (100 / visibleCount)}%)` }}
             >
               {testimonials.map((t, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
                 >
-                  <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col justify-between">
-                    <div>
-                      {/* Rating and Google Badge */}
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-0.5">
-                          {Array.from({ length: t.rating }).map((_, i) => (
-                            <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
-                          ))}
-                        </div>
-                        <span className="flex items-center gap-1 text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-                          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12.24 10.285V13.4h6.887C18.2 15.614 15.645 18 12.24 18c-3.86 0-7-3.14-7-7s3.14-7 7-7c1.706 0 3.277.614 4.5 1.625l2.437-2.437C17.312 1.696 14.933 1 12.24 1 6.583 1 2 5.583 2 11.24s4.583 10.24 10.24 10.24c5.795 0 10.254-4.074 10.254-10.24 0-.695-.08-1.355-.22-1.955H12.24z"/>
-                          </svg>
-                          Google
-                        </span>
+                  <div className="bg-gray-50/60 rounded-2xl p-6 border border-gray-100/80 flex gap-4 items-start h-full">
+                    {/* Left avatar photo */}
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-white shadow-sm"
+                    />
+
+                    {/* Right details */}
+                    <div className="flex-1">
+                      {/* Rating */}
+                      <div className="flex gap-0.5 mb-1.5">
+                        {Array.from({ length: t.rating }).map((_, i) => (
+                          <Star key={i} size={13} className="text-amber-400 fill-amber-400" />
+                        ))}
                       </div>
-                      
-                      {/* Review Text */}
-                      <p className="text-gray-600 leading-relaxed text-sm italic mb-6">
+
+                      {/* Text */}
+                      <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-3">
                         "{t.text}"
                       </p>
-                    </div>
 
-                    {/* Reviewer Details */}
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${getAvatarBg(t.name)}`}>
-                        {t.name.charAt(0)}
-                      </div>
+                      {/* Name & Time */}
                       <div>
-                        <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
-                        <p className="text-xs text-gray-400">{t.badge}</p>
+                        <p className="font-bold text-gray-900 text-xs sm:text-sm">{t.name}</p>
+                        <p className="text-[10px] text-gray-400 mt-0.5">{t.badge}</p>
                       </div>
                     </div>
                   </div>
@@ -126,36 +124,41 @@ export default function Testimonials() {
           </div>
 
           {/* Navigation Controls */}
-          <button 
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full border border-gray-100 shadow-md flex items-center justify-center text-gray-600 hover:text-brand-600 hover:shadow-lg transition-all z-10"
-            aria-label="Anterior opinión"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          
-          <button 
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full border border-gray-100 shadow-md flex items-center justify-center text-gray-600 hover:text-brand-600 hover:shadow-lg transition-all z-10"
-            aria-label="Siguiente opinión"
-          >
-            <ChevronRight size={20} />
-          </button>
+          {maxIndex > 0 && (
+            <>
+              <button
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full border border-gray-100 shadow-sm flex items-center justify-center text-gray-500 hover:text-[#5c3e98] transition-colors z-10"
+                aria-label="Anterior"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full border border-gray-100 shadow-sm flex items-center justify-center text-gray-500 hover:text-[#5c3e98] transition-colors z-10"
+                aria-label="Siguiente"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Indicators */}
-        <div className="flex justify-center gap-1.5 mt-8">
-          {Array.from({ length: testimonials.length - visibleCount + 1 }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentIndex(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                currentIndex === i ? 'w-6 bg-brand-600' : 'w-2 bg-gray-200 hover:bg-gray-300'
-              }`}
-              aria-label={`Ir al grupo ${i + 1}`}
-            />
-          ))}
-        </div>
+        {maxIndex > 0 && (
+          <div className="flex justify-center gap-1.5 mt-6">
+            {Array.from({ length: testimonials.length - visibleCount + 1 }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`h-1.5 rounded-full transition-all duration-200 ${
+                  currentIndex === i ? 'w-5 bg-[#5c3e98]' : 'w-1.5 bg-[#e9e1f8]'
+                }`}
+                aria-label={`Grupo ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import Hero from '../components/Hero';
 import Features from '../components/Features';
-import Categories from '../components/Categories';
 import FeaturedProducts from '../components/FeaturedProducts';
+import WhyChooseUs from '../components/WhyChooseUs';
 import About from '../components/About';
 import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
@@ -35,9 +35,9 @@ export default function HomePage() {
         }}
       />
       <Hero />
-      <Categories />
       <Features />
       <FeaturedProducts />
+      <WhyChooseUs />
       <About />
       <Testimonials />
       <Contact />

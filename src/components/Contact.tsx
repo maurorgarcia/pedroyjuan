@@ -7,7 +7,7 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="section-title">Visítanos</h2>
-          <p className="section-subtitle">Te esperamos en nuestro local en San Nicolás de los Arroyos</p>
+          <p className="section-subtitle">Te esperamos en nuestro local en San Nicolás</p>
         </div>
         
         <div className="max-w-4xl mx-auto mb-10">
