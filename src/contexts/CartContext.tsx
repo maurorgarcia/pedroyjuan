@@ -21,6 +21,8 @@ type CartContextType = {
   removeFromCart: (productId: string) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
   clearCart: () => Promise<void>;
+  isCartOpen: boolean;
+  setCartOpen: (open: boolean) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -41,6 +43,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   });
   const [loading, setLoading] = useState(false);
   const [mergedGuestCart, setMergedGuestCart] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
 
   const fetchCart = useCallback(async () => {
     if (!user) return;
@@ -221,6 +224,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeFromCart,
       updateQuantity,
       clearCart,
+      isCartOpen,
+      setCartOpen,
     }}>
       {children}
     </CartContext.Provider>

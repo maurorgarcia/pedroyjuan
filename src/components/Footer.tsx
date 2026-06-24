@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, MapPin, Clock, Instagram, MessageCircle } from 'lucide-react';
+import { MapPin, Clock, Instagram, MessageCircle } from 'lucide-react';
 import { CATEGORIES } from '../lib/constants';
 import { BUSINESS, whatsAppUrl, PRIMARY_PHONE } from '../lib/business';
 
@@ -64,15 +64,6 @@ export default function Footer() {
                   {BUSINESS.address}
                 </a>
               </li>
-              {BUSINESS.phones.map(phone => (
-                <li key={phone.id} className="flex items-start gap-2 text-sm">
-                  <Phone size={15} className="mt-0.5 flex-shrink-0 text-brand-400" />
-                  <div>
-                    <p className="text-gray-400 text-xs">{phone.label}</p>
-                    <a href={`tel:${phone.tel}`} className="hover:text-white transition-colors">{phone.display}</a>
-                  </div>
-                </li>
-              ))}
               <li className="flex items-start gap-2 text-sm">
                 <Clock size={15} className="mt-0.5 flex-shrink-0 text-brand-400" />
                 <span>{BUSINESS.hours}</span>

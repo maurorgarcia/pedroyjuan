@@ -1,44 +1,81 @@
-import { Calendar, Star } from 'lucide-react';
+import { Store, HeartPulse, Scissors, ArrowRight, MessageCircle } from 'lucide-react';
+import { whatsAppUrl, getPhoneById } from '../lib/business';
+
+const SERVICES = [
+  {
+    id: 'petshop',
+    title: 'PETSHOP',
+    description: 'Alimentos balanceados premium y económicos, accesorios de paseo, higiene, juguetes y un sector especializado de acuarismo.',
+    icon: Store,
+    actionText: 'Ver productos',
+    actionUrl: '#categorias',
+    whatsappMessage: null,
+  },
+  {
+    id: 'veterinaria',
+    title: 'VETERINARIA',
+    description: 'Consultas clínicas, vacunación, desparasitaciones y atención médica profesional. Cuidamos a tu mascota con calidez y dedicación.',
+    icon: HeartPulse,
+    actionText: 'Consultar veterinaria',
+    actionUrl: null,
+    whatsappMessage: 'Hola! Quiero realizar una consulta veterinaria.',
+  },
+  {
+    id: 'peluqueria',
+    title: 'PELUQUERÍA',
+    description: 'Estética canina y felina integral. Baños higiénicos, corte de raza, despejado de almohadillas y corte de uñas con amor y paciencia.',
+    icon: Scissors,
+    actionText: 'Pedir turno',
+    actionUrl: null,
+    whatsappMessage: 'Hola! Quisiera pedir un turno para la peluquería canina.',
+  },
+];
 
 export default function About() {
   return (
-    <section id="nosotros" className="py-16 bg-gray-50">
+    <section id="servicios" className="py-16 bg-gray-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <span className="inline-flex items-center gap-1.5 bg-brand-100 text-brand-700 text-sm font-semibold px-3 py-1.5 rounded-full mb-4">
-              <Calendar size={15} /> 10+ años en el barrio
-            </span>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pedro y Juan — Cosa de Perros</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Somos un espacio integral en San Nicolás de Los Arroyos pensado para cubrir todas las necesidades de tus mascotas. Funcionamos como un Petshop completo, Veterinaria y Peluquería Canina, buscando darte siempre el cuidado y la atención que tu compañero merece.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              En nuestra tienda vas a encontrar una inmensa variedad de alimentos (desde marcas premium hasta opciones económicas), accesorios de higiene, juguetes y un sector especializado de acuarismo con asesoramiento experto. Además, para tu comodidad, contamos con envíos a domicilio para bolsas pesadas y un amplio horario de lunes a sábado de 8:30 a 13:00 hs y de 17:30 a 21:00 hs.
-            </p>
-            <div className="grid grid-cols-3 gap-6">
-              {[['10+', 'Años de trayectoria'], ['2000+', 'Productos'], ['190+', 'Opiniones Google']].map(([num, label]) => (
-                <div key={label} className="text-center">
-                  <p className="text-2xl font-bold text-brand-700">{num}</p>
-                  <p className="text-xs text-gray-500 mt-1">{label}</p>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Nuestros Servicios</h2>
+          <p className="text-gray-505 text-sm mt-2 max-w-xl mx-auto">
+            Todo lo que tu mascota necesita en un solo lugar, con la atención y el cuidado familiar de siempre.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {SERVICES.map(service => {
+            const Icon = service.icon;
+            const phoneInfo = getPhoneById(service.id);
+            const linkUrl = service.actionUrl || whatsAppUrl(phoneInfo, service.whatsappMessage || undefined);
+            const isExternal = !service.actionUrl?.startsWith('#');
+
+            return (
+              <div
+                key={service.id}
+                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-wide">{service.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6">{service.description}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative">
-            <img
-              src="https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=600"
-              alt="Mascotas felices"
-              className="w-full h-80 object-cover rounded-2xl shadow-xl"
-            />
-            <div className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg p-4">
-              <div className="flex items-center gap-1.5">
-                <p className="text-2xl font-bold text-brand-700">4.9</p>
-                <Star size={20} className="text-amber-400 fill-amber-400" />
+                <div>
+                  <a
+                    href={linkUrl}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noopener noreferrer' : undefined}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors w-full"
+                  >
+                    {isExternal && <MessageCircle size={16} />}
+                    {service.actionText}
+                    <ArrowRight size={16} className="ml-auto group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">Calificacion promedio</p>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
